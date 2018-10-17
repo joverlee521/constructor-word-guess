@@ -5,7 +5,7 @@ function Letter(character) {
     this.guessed = false,
     this.display = function(){
         if(this.guessed){
-            return this.character;
+            return this.character.toUpperCase();
         }
         else{
             return "_";

@@ -1,9 +1,10 @@
-var wordSelection = ["Aladdin", "Mulan", "Hercules"];
+var wordSelection = ["The Little Mermaid"];
 var currentWord;
 var inquirer = require("inquirer");
 var Word = require("./word.js");
 var alphabet = /[a-zA-Z]/;
 var remainingGuesses = 10;
+var guessedLetters = [];
 
 function selectRandomWord(){
     var selectedWord = wordSelection[Math.floor(Math.random() * wordSelection.length)];
@@ -11,7 +12,13 @@ function selectRandomWord(){
 }
 
 function guessPrompt(){
-    if(!wordGuessed()){
+    if(remainingGuesses <= 0){
+        console.log("You're out of guesses! You lose!");
+        playAgain();
+    }
+    else if(!wordGuessed()){
+        console.log("Try to guess the Disney movie!");
+        currentWord.displayWord();
         inquirer.prompt([
             {
                 type: "input",
@@ -28,16 +35,23 @@ function guessPrompt(){
                 }
             }
         ]).then(function(user){
-            currentWord.checkGuess(user.guess);
-            currentWord.displayWord();
-            if(currentWord.checkGuess(user.guess)){
-                console.log("CORRECT!");
+            if(guessedLetters.indexOf(user.guess) >= 0){
+                console.log("You already guessed this letter! Try again!");
+                guessPrompt();
             }
             else{
-                remainingGuesses--;
-                console.log("INCORRECT! You have " + remainingGuesses + " guesses left!");
+                currentWord.checkGuess(user.guess);
+                currentWord.displayWord();
+                if(currentWord.checkGuess(user.guess)){
+                    console.log("CORRECT!");
+                }
+                else{
+                    remainingGuesses--;
+                    console.log("INCORRECT! You have " + remainingGuesses + " guesses left!");
+                }
+                guessedLetters.push(user.guess);
+                guessPrompt();
             }
-            guessPrompt();
         })
     }
     else{
@@ -66,6 +80,8 @@ function playAgain(){
         }
     ]).then(function(user){
         if(user.confirm){
+            guessedLetters = [];
+            remainingGuesses = 10;
             selectRandomWord();
             guessPrompt();
         }

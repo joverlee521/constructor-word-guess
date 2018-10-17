@@ -1,6 +1,5 @@
 var Letter = require("./letter.js");
-var inquirer = require("inquirer");
-var alphabet = /[a-zA-Z]/;
+var correctGuess = false;
 
 function wordToArray(currentWord){
     var array = [];
@@ -22,31 +21,21 @@ function Word(currentWord){
         console.log(word.join(" "));
     }
     this.checkGuess = function(input){
+        correctGuess = false;
         for(var i = 0; i < this.wordArray.length; i++){
-            this.wordArray[i].checkLetter(input);
+            if(this.wordArray[i].checkLetter(input)){
+                correctGuess = true;
+            }
+        }
+        if(correctGuess){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }
 
-// var dog = new Word("apple");
-
-// inquirer.prompt([
-//     {
-//         type: "input",
-//         name: "letter",
-//         message: "Guess a letter!",
-//         validate: function(input){
-//             if(alphabet.test(input)) {
-//                 return true;
-//             }
-//             else {
-//                 console.log("\n Please enter a letter!");
-//                 return false
-//             }
-//         }
-
-//     }
-// ]).then(function(input){
-//     dog.checkGuess(input.letter)
-//     dog.displayWord();
-// })
+module.exports = {
+    word: Word
+}

@@ -1,14 +1,25 @@
-var wordSelection = ["The Little Mermaid"];
+var wordSelection = ["The Little Mermaid" , "The Lion King", "Aladdin", "Hercules", "Cinderella", "Beauty and the Beast", "Pocahontas", "The Aristocats", "Peter Pan", "Dumbo", "The Jungle Book"];
 var currentWord;
 var inquirer = require("inquirer");
 var Word = require("./word.js");
 var alphabet = /[a-zA-Z]/;
 var remainingGuesses = 10;
 var guessedLetters = [];
+var usedWords = [];
 
 function selectRandomWord(){
     var selectedWord = wordSelection[Math.floor(Math.random() * wordSelection.length)];
-    currentWord = new Word.word(selectedWord);
+    if(usedWords.indexOf(selectedWord) < 0){
+        currentWord = new Word.word(selectedWord);
+        usedWords.push(selectedWord);
+    }
+    else if(usedWords.length !== wordSelection.length){
+        selectRandomWord();
+    }
+    else{
+        console.log("There are no more words to guess!");
+        playAgain();
+    }
 }
 
 function guessPrompt(){
@@ -63,7 +74,7 @@ function guessPrompt(){
 function wordGuessed(){
     var word = currentWord.wordArray;
     for(var i = 0; i < word.length; i++){
-        if(!word[i].guessed){
+        if(!word[i].guessed && word[i] !== " "){
             return false;
         }
     }
@@ -84,6 +95,9 @@ function playAgain(){
             remainingGuesses = 10;
             selectRandomWord();
             guessPrompt();
+            if(usedWords.length === wordSelection.length){
+                usedWords = [];
+            }
         }
         else{
             console.log("Thank you for playing!");

@@ -1,7 +1,7 @@
 var wordSelection = ["The Little Mermaid" , "The Lion King", "Aladdin", "Hercules", "Cinderella", "Beauty and the Beast", "Pocahontas", "The Aristocats", "Peter Pan", "Dumbo", "The Jungle Book"];
 var currentWord;
 var inquirer = require("inquirer");
-var Word = require("./word.js");
+var Word = require("./word");
 var alphabet = /[a-zA-Z]/;
 var remainingGuesses = 10;
 var guessedLetters = [];
@@ -10,7 +10,7 @@ var usedWords = [];
 function selectRandomWord(){
     var selectedWord = wordSelection[Math.floor(Math.random() * wordSelection.length)];
     if(usedWords.indexOf(selectedWord) < 0){
-        currentWord = new Word.word(selectedWord);
+        currentWord = new Word(selectedWord);
         usedWords.push(selectedWord);
     }
     else if(usedWords.length !== wordSelection.length){

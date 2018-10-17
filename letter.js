@@ -22,6 +22,4 @@ function Letter(character) {
     }
 }
 
-module.exports = {
-    letter: Letter
-}
+module.exports = Letter;

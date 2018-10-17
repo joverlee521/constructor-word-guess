@@ -1,11 +1,11 @@
-var Letter = require("./letter.js");
+var Letter = require("./letter");
 var correctGuess = false;
 
 function wordToArray(currentWord){
     var array = [];
     for(var i = 0; i < currentWord.length; i++){
         if(currentWord[i] !== " "){
-            var letterObject = new Letter.letter(currentWord[i]);
+            var letterObject = new Letter(currentWord[i]);
             array.push(letterObject);
         }
         else{
@@ -48,6 +48,4 @@ function Word(currentWord){
     }
 }
 
-module.exports = {
-    word: Word
-}
+module.exports = Word;

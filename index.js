@@ -68,8 +68,8 @@ function guessPrompt(){
                 // User input validation function
                 validate: function(input){
                     // Checks if the user has already guessed the same letter 
-                    if(guessedLetters.indexOf(input) >= 0){
-                        console.log("You already guessed this letter! Try again!");
+                    if(guessedLetters.indexOf(input.trim().toLowerCase()) >= 0){
+                        console.log("\n You already guessed this letter! Try again!");
                         return false;
                     }
                     // Checks if user's input is a single letter of the alphabet
@@ -97,7 +97,7 @@ function guessPrompt(){
                 console.log("INCORRECT! You have " + remainingGuesses + " guesses left!");
             }
             // Store user's guess in an array so it can't be repeated
-            guessedLetters.push(user.guess);
+            guessedLetters.push(user.guess.trim().toLowerCase());
             guessPrompt();
     
         })

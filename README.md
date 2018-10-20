@@ -21,3 +21,4 @@ Command-line word guessing game that was created using constructors.
 ## Technologies Used
 * JavaScript, Node.js
 * [Inquirer](https://www.npmjs.com/package/inquirer)
+* [Colors](https://www.npmjs.com/package/colors)

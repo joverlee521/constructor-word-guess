@@ -1,6 +1,7 @@
-// Require Word construct and inquirer package 
+// Require Word construct, inquirer and colors package 
 var Word = require("./word");
 var inquirer = require("inquirer");
+var colors = require("colors");
 // Array of words to select for game
 var wordSelection = ["The Little Mermaid" , "The Lion King", "Aladdin", "Hercules", "Cinderella", "Beauty and the Beast", "Pocahontas", "The Aristocats", "Peter Pan", "Dumbo", "The Jungle Book"];
 var currentWord;
@@ -26,7 +27,7 @@ function selectRandomWord(){
     }
     // If all words have been used, alert player and ask if they want to play again
     else{
-        console.log("There are no more words to guess!");
+        console.log("There are no more words to guess!".magenta);
         playAgain();
     }
 }
@@ -48,14 +49,14 @@ function wordGuessed(){
 function guessPrompt(){
     // If player used all their guesses, alert them and ask if they want to play again
     if(remainingGuesses <= 0){
-        console.log("You're out of guesses! You lose!");
+        console.log("You're out of guesses! You lose!".red);
         playAgain();
     }
     // If the word has not been guessed, display prompt
     else if(!wordGuessed()){
         // Display word at the start of the game if it is the first game
         if(firstGame){
-        console.log("Try to guess the Disney movie!");
+        console.log("Try to guess the Disney movie!".magenta);
         currentWord.displayWord();
         firstGame = false;
         }
@@ -69,7 +70,7 @@ function guessPrompt(){
                 validate: function(input){
                     // Checks if the user has already guessed the same letter 
                     if(guessedLetters.indexOf(input.trim().toLowerCase()) >= 0){
-                        console.log("\n You already guessed this letter! Try again!");
+                        console.log("\n You already guessed this letter! Try again!".red);
                         return false;
                     }
                     // Checks if user's input is a single letter of the alphabet
@@ -78,7 +79,7 @@ function guessPrompt(){
                     }
                     // Asks user to input a single letter if input doesn't match rules
                     else{
-                        console.log("\n Please enter a single letter");
+                        console.log("\n Please enter a single letter".red);
                         return false;
                     }
                 }
@@ -89,12 +90,12 @@ function guessPrompt(){
             currentWord.displayWord();
             // Let the user know if their guess was correct or incorrect
             if(currentWord.checkGuess(user.guess)){
-                console.log("CORRECT!");
+                console.log("CORRECT!".green);
             }
             else{
                 // Decrease remaining guesses if incorrect and let user know their remaining guesses
                 remainingGuesses--;
-                console.log("INCORRECT! You have " + remainingGuesses + " guesses left!");
+                console.log("INCORRECT! You have ".red + remainingGuesses + " guesses left!".red);
             }
             // Store user's guess in an array so it can't be repeated
             guessedLetters.push(user.guess.trim().toLowerCase());
@@ -104,7 +105,7 @@ function guessPrompt(){
     }
     else{
         // If the word has been guessed, let the user know and ask if they want to play again
-        console.log("You guessed the word!");
+        console.log("You guessed the word!".green);
         playAgain();
     }
 }
@@ -132,7 +133,7 @@ function playAgain(){
         }
         // End game if the user does not want to play again
         else{
-            console.log("Thank you for playing!");
+            console.log("Thank you for playing!".magenta);
         }
     })
 }
